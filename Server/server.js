@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import multer from "multer";
 import path from "path";
 
+// middlewares
 const app = express();
 app.use(
   cors({
@@ -17,3 +18,19 @@ app.use(
 app.use(express.urlencoded());
 app.use(express.json());
 app.use(express.static("public"));
+
+// Database Connection
+const con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "signup",
+});
+
+con.connect(function (err) {
+  if (err) {
+    console.log("Error in Connection");
+  } else {
+    console.log("Connected");
+  }
+});
