@@ -1,14 +1,14 @@
 import { useState } from "react";
 import "./style.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [values, setValues] = useState({
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
+  //   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
   const [error, setError] = useState("");
 
@@ -18,7 +18,7 @@ function Login() {
       .post("http://localhost:8081/login", values)
       .then((res) => {
         if (res.data.Status === "Success") {
-          navigate("/");
+          //   navigate("/");
         } else {
           setError(res.data.Error);
         }
