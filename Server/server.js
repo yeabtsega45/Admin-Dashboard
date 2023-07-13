@@ -36,6 +36,23 @@ con.connect(function (err) {
   }
 });
 
+// creating storage using multer
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/images");
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+
+const upload = multer({
+  storage: storage,
+});
+
 // methods
 // admin login
 app.post("/login", (req, res) => {
@@ -71,7 +88,7 @@ app.post("/create", upload.single("image"), (req, res) => {
       req.file.filename,
     ];
     con.query(sql, [values], (err, result) => {
-      if (err) return res.json({ Error: "Inside singup query" });
+      if (err) return res.json({ Error: "Inside signup query" });
       return res.json({ Status: "Success" });
     });
   });
