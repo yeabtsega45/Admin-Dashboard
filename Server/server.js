@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import multer from "multer";
 import path from "path";
+import cookieParser from "cookie-parser";
 
 // middlewares
 const app = express();
@@ -15,7 +16,7 @@ app.use(
     credentials: true,
   })
 );
-// app.use(express.urlencoded());
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.static("public"));
 
@@ -40,7 +41,7 @@ app.post("/login", (req, res) => {
   const sql = "SELECT * FROM users Where email = ? AND  password = ?";
   con.query(sql, [req.body.email, req.body.password], (err, result) => {
     if (err)
-      return res.json({ Status: "Error", Error: "Error in runnig query" });
+      return res.json({ Status: "Error", Error: "Error in running query" });
     if (result.length > 0) {
       const id = result[0].id;
       const token = jwt.sign({ role: "admin" }, "jwt-secret-key", {
