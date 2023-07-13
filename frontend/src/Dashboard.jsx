@@ -1,6 +1,35 @@
+import { useEffect } from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Dashboard() {
+  const navigate = useNavigate();
+  axios.defaults.withCredentials = true;
+  useEffect((navigate) => {
+    axios.get("http://localhost:8081/dashboard").then((res) => {
+      if (res.data.Status === "Success") {
+        if (res.data.role === "admin") {
+          navigate("/");
+        } else {
+          const id = res.data.id;
+          navigate("/employeedetail/" + id);
+        }
+      } else {
+        navigate("/start");
+      }
+    });
+  }, []);
+
+  const handleLogout = () => {
+    axios
+      .get("http://localhost:8081/logout")
+      .then((res) => {
+        navigate("/start");
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <div className="container-fluid">
       <div className="row flex-nowrap">
@@ -8,132 +37,61 @@ function Dashboard() {
           <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
             <a
               href="/"
-              className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none"
+              className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none"
             >
-              <span className="fs-5 d-none d-sm-inline">Menu</span>
+              <span className="fs-5 fw-bolder d-none d-sm-inline">
+                Admin Dashboard
+              </span>
             </a>
             <ul
               className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
               id="menu"
             >
-              <li className="nav-item">
-                <a href="#" className="nav-link align-middle px-0">
-                  <i className="fs-4 bi-house"></i>{" "}
-                  <span className="ms-1 d-none d-sm-inline">Home</span>
-                </a>
-              </li>
               <li>
-                <a
-                  href="#submenu1"
+                <Link
+                  to="/"
                   data-bs-toggle="collapse"
-                  className="nav-link px-0 align-middle"
+                  className="nav-link text-white px-0 align-middle"
                 >
                   <i className="fs-4 bi-speedometer2"></i>{" "}
                   <span className="ms-1 d-none d-sm-inline">Dashboard</span>{" "}
-                </a>
-                <ul
-                  className="collapse show nav flex-column ms-1"
-                  id="submenu1"
-                  data-bs-parent="#menu"
-                >
-                  <li className="w-100">
-                    <a href="#" className="nav-link px-0">
-                      {" "}
-                      <span className="d-none d-sm-inline">Item</span> 1{" "}
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="nav-link px-0">
-                      {" "}
-                      <span className="d-none d-sm-inline">Item</span> 2{" "}
-                    </a>
-                  </li>
-                </ul>
+                </Link>
               </li>
               <li>
-                <a href="#" className="nav-link px-0 align-middle">
-                  <i className="fs-4 bi-table"></i>{" "}
-                  <span className="ms-1 d-none d-sm-inline">Orders</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#submenu2"
-                  data-bs-toggle="collapse"
-                  className="nav-link px-0 align-middle "
+                <Link
+                  to="/employee"
+                  className="nav-link px-0 align-middle text-white"
                 >
-                  <i className="fs-4 bi-bootstrap"></i>{" "}
-                  <span className="ms-1 d-none d-sm-inline">Bootstrap</span>
-                </a>
-                <ul
-                  className="collapse nav flex-column ms-1"
-                  id="submenu2"
-                  data-bs-parent="#menu"
-                >
-                  <li className="w-100">
-                    <a href="#" className="nav-link px-0">
-                      {" "}
-                      <span className="d-none d-sm-inline">Item</span> 1
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="nav-link px-0">
-                      {" "}
-                      <span className="d-none d-sm-inline">Item</span> 2
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a
-                  href="#submenu3"
-                  data-bs-toggle="collapse"
-                  className="nav-link px-0 align-middle"
-                >
-                  <i className="fs-4 bi-grid"></i>{" "}
-                  <span className="ms-1 d-none d-sm-inline">Products</span>{" "}
-                </a>
-                <ul
-                  className="collapse nav flex-column ms-1"
-                  id="submenu3"
-                  data-bs-parent="#menu"
-                >
-                  <li className="w-100">
-                    <a href="#" className="nav-link px-0">
-                      {" "}
-                      <span className="d-none d-sm-inline">Product</span> 1
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="nav-link px-0">
-                      {" "}
-                      <span className="d-none d-sm-inline">Product</span> 2
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="nav-link px-0">
-                      {" "}
-                      <span className="d-none d-sm-inline">Product</span> 3
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="nav-link px-0">
-                      {" "}
-                      <span className="d-none d-sm-inline">Product</span> 4
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a href="#" className="nav-link px-0 align-middle">
                   <i className="fs-4 bi-people"></i>{" "}
-                  <span className="ms-1 d-none d-sm-inline">Customers</span>{" "}
+                  <span className="ms-1 d-none d-sm-inline">
+                    Manage Employees
+                  </span>{" "}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="profile"
+                  className="nav-link px-0 align-middle text-white"
+                >
+                  <i className="fs-4 bi-person"></i>{" "}
+                  <span className="ms-1 d-none d-sm-inline">Profile</span>
+                </Link>
+              </li>
+              <li onClick={handleLogout}>
+                <a href="#" className="nav-link px-0 align-middle text-white">
+                  <i className="fs-4 bi-power"></i>{" "}
+                  <span className="ms-1 d-none d-sm-inline">Logout</span>
                 </a>
               </li>
             </ul>
           </div>
         </div>
-        <div className="col py-3">Content area...</div>
+        <div className="col p-0 m-0">
+          <div className="p-2 d-flex justify-content-center shadow">
+            <h4>Employee Management System</h4>
+          </div>
+          <Outlet />
+        </div>
       </div>
     </div>
   );
