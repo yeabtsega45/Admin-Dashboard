@@ -37,6 +37,7 @@ con.connect(function (err) {
 });
 
 // methods
+// admin login
 app.post("/login", (req, res) => {
   const sql = "SELECT * FROM users Where email = ? AND  password = ?";
   con.query(sql, [req.body.email, req.body.password], (err, result) => {
@@ -52,6 +53,27 @@ app.post("/login", (req, res) => {
     } else {
       return res.json({ Status: "Error", Error: "Wrong Email or Password" });
     }
+  });
+});
+
+// admin create employee
+app.post("/create", upload.single("image"), (req, res) => {
+  const sql =
+    "INSERT INTO employee (`name`,`email`,`password`, `address`, `salary`,`image`) VALUES (?)";
+  bcrypt.hash(req.body.password.toString(), 10, (err, hash) => {
+    if (err) return res.json({ Error: "Error in hashing password" });
+    const values = [
+      req.body.name,
+      req.body.email,
+      hash,
+      req.body.address,
+      req.body.salary,
+      req.file.filename,
+    ];
+    con.query(sql, [values], (err, result) => {
+      if (err) return res.json({ Error: "Inside singup query" });
+      return res.json({ Status: "Success" });
+    });
   });
 });
 
