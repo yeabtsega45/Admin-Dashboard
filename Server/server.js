@@ -104,13 +104,23 @@ app.get("/getEmployee", (req, res) => {
   });
 });
 
-//get single employee to edit
+//get single employee
 app.get("/get/:id", (req, res) => {
   const id = req.params.id;
   const sql = "SELECT * FROM employee where id = ?";
   con.query(sql, [id], (err, result) => {
     if (err) return res.json({ Error: "Get employee error in sql" });
     return res.json({ Status: "Success", Result: result });
+  });
+});
+
+//update employee
+app.put("/update/:id", (req, res) => {
+  const id = req.params.id;
+  const sql = "UPDATE employee set salary = ? WHERE id = ?";
+  con.query(sql, [req.body.salary, id], (err, result) => {
+    if (err) return res.json({ Error: "update employee error in sql" });
+    return res.json({ Status: "Success" });
   });
 });
 
