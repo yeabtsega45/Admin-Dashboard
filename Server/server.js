@@ -104,6 +104,16 @@ app.get("/getEmployee", (req, res) => {
   });
 });
 
+//get single employee to edit
+app.get("/get/:id", (req, res) => {
+  const id = req.params.id;
+  const sql = "SELECT * FROM employee where id = ?";
+  con.query(sql, [id], (err, result) => {
+    if (err) return res.json({ Error: "Get employee error in sql" });
+    return res.json({ Status: "Success", Result: result });
+  });
+});
+
 // starting server
 app.listen(8081, () => {
   console.log("Running");
