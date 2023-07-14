@@ -53,7 +53,7 @@ const upload = multer({
   storage: storage,
 });
 
-// methods
+// methods or APIs
 // admin login
 app.post("/login", (req, res) => {
   const sql = "SELECT * FROM users Where email = ? AND  password = ?";
@@ -92,6 +92,15 @@ app.post("/create", upload.single("image"), (req, res) => {
       if (err) return res.json({ Error: "Inside signup query" });
       return res.json({ Status: "Success" });
     });
+  });
+});
+
+//get all employees
+app.get("/getEmployee", (req, res) => {
+  const sql = "SELECT * FROM employee";
+  con.query(sql, (err, result) => {
+    if (err) return res.json({ Error: "Get employee error in sql" });
+    return res.json({ Status: "Success", Result: result });
   });
 });
 
