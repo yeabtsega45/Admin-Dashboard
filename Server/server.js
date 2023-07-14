@@ -124,6 +124,16 @@ app.put("/update/:id", (req, res) => {
   });
 });
 
+//delete employee
+app.delete("/delete/:id", (req, res) => {
+  const id = req.params.id;
+  const sql = "Delete FROM employee WHERE id = ?";
+  con.query(sql, [id], (err, result) => {
+    if (err) return res.json({ Error: "delete employee error in sql" });
+    return res.json({ Status: "Success" });
+  });
+});
+
 // starting server
 app.listen(8081, () => {
   console.log("Running");
