@@ -75,6 +75,7 @@ app.post("/login", (req, res) => {
 
 // admin create employee
 app.post("/create", upload.single("image"), (req, res) => {
+  // console.log(res);
   const sql =
     "INSERT INTO employee (`name`,`email`,`password`, `address`, `salary`,`image`) VALUES (?)";
   bcrypt.hash(req.body.password.toString(), 10, (err, hash) => {
