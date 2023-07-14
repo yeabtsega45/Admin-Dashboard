@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function Employee() {
+  //displaying the data with useState
   const [data, setData] = useState([]);
 
+  //fetching api with useEffect
   useEffect(() => {
     axios
       .get("http://localhost:8081/getEmployee")
@@ -18,6 +20,7 @@ function Employee() {
       .catch((err) => console.log(err));
   }, []);
 
+  //deleting employee account
   const handleDelete = (id) => {
     axios
       .delete("http://localhost:8081/delete/" + id)
