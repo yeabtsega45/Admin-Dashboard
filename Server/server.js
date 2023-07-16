@@ -12,7 +12,7 @@ const app = express();
 app.use(
   cors({
     origin: ["http://localhost:5173"],
-    methods: ["POST", "GET", "PUT"],
+    methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,
   })
 );
@@ -57,7 +57,7 @@ const upload = multer({
 const verifyUser = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
-    return res.json({ Error: "You are no Authenticated" });
+    return res.json({ Error: "You are not Authenticated" });
   } else {
     jwt.verify(token, "jwt-secret-key", (err, decoded) => {
       if (err) return res.json({ Error: "Token wrong" });
@@ -147,6 +147,17 @@ app.delete("/delete/:id", (req, res) => {
     if (err) return res.json({ Error: "delete employee error in sql" });
     return res.json({ Status: "Success" });
   });
+});
+
+//protected route
+app.get("/dashboard", verifyUser, (req, res) => {
+  return res.json({ Status: "Success", role: req.role, id: req.id });
+});
+
+//admin logout
+app.get("/logout", (req, res) => {
+  res.clearCookie("token");
+  return res.json({ Status: "Success" });
 });
 
 // starting server
