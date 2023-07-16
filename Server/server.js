@@ -160,6 +160,33 @@ app.get("/logout", (req, res) => {
   return res.json({ Status: "Success" });
 });
 
+//admin count on home page
+app.get("/adminCount", (req, res) => {
+  const sql = "Select count(id) as admin from users";
+  con.query(sql, (err, result) => {
+    if (err) return res.json({ Error: "Error in running query" });
+    return res.json(result);
+  });
+});
+
+//employee count on home page
+app.get("/employeeCount", (req, res) => {
+  const sql = "Select count(id) as employee from employee";
+  con.query(sql, (err, result) => {
+    if (err) return res.json({ Error: "Error in running query" });
+    return res.json(result);
+  });
+});
+
+//salary on home page
+app.get("/salary", (req, res) => {
+  const sql = "Select sum(salary) as sumOfSalary from employee";
+  con.query(sql, (err, result) => {
+    if (err) return res.json({ Error: "Error in running query" });
+    return res.json(result);
+  });
+});
+
 // starting server
 app.listen(8081, () => {
   console.log("Running");
