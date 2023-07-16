@@ -7,7 +7,7 @@ import multer from "multer";
 import path from "path";
 import cookieParser from "cookie-parser";
 
-// middlewares
+// builtin middlewares
 const app = express();
 app.use(
   cors({
@@ -52,6 +52,21 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
 });
+
+//Authentication Middleware
+const verifyUser = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.json({ Error: "You are no Authenticated" });
+  } else {
+    jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+      if (err) return res.json({ Error: "Token wrong" });
+      req.role = decoded.role;
+      req.id = decoded.id;
+      next();
+    });
+  }
+};
 
 // methods or APIs
 // admin login

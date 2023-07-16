@@ -13,7 +13,7 @@ function EditEmployee() {
 
   const { id } = useParams();
 
-  useEffect((id, data) => {
+  useEffect(() => {
     axios
       .get("http://localhost:8081/get/" + id)
       .then((res) => {
