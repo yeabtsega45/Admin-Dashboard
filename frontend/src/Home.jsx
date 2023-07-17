@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [adminCount, setAdminCount] = useState();
@@ -30,7 +31,7 @@ function Home() {
       .catch((err) => console.log(err));
 
     axios
-      .get("http://localhost:8081/getEmployee")
+      .get("http://localhost:8081/getAdmin")
       .then((res) => {
         if (res.data.Status === "Success") {
           setData(res.data.Result);
@@ -78,16 +79,31 @@ function Home() {
         <table className="table">
           <thead>
             <tr>
+              <th>Name</th>
               <th>Email</th>
-              <th>Action</th>
+              <th>Contact</th>
             </tr>
           </thead>
           <tbody>
             {data.map((admin, index) => {
               return (
                 <tr key={index}>
+                  <td>{admin.name}</td>
                   <td>{admin.email}</td>
-                  <td>Admin</td>
+                  <td>
+                    <Link
+                      to="https://yabtsega2022@gmail.com"
+                      className="btn btn-sm btn-danger me-2"
+                    >
+                      Email
+                    </Link>
+                    <Link
+                      to="https://github.com/yeabtsega45"
+                      className="btn btn-primary btn-sm bg-black"
+                    >
+                      Github
+                    </Link>
+                  </td>
                 </tr>
               );
             })}
