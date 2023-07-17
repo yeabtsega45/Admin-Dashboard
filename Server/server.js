@@ -119,6 +119,15 @@ app.get("/getEmployee", (req, res) => {
   });
 });
 
+//get all admins
+app.get("/getAdmin", (req, res) => {
+  const sql = "SELECT * FROM users";
+  con.query(sql, (err, result) => {
+    if (err) return res.json({ Error: "Get users error in sql" });
+    return res.json({ Status: "Success", Result: result });
+  });
+});
+
 //get single employee
 app.get("/get/:id", (req, res) => {
   const id = req.params.id;
