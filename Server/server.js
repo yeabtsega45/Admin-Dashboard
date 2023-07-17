@@ -187,6 +187,7 @@ app.get("/salary", (req, res) => {
   });
 });
 
+//employee login
 app.post("/employeelogin", (req, res) => {
   const sql = "SELECT * FROM employee Where email = ?";
   con.query(sql, [req.body.email], (err, result) => {
@@ -217,6 +218,16 @@ app.post("/employeelogin", (req, res) => {
     } else {
       return res.json({ Status: "Error", Error: "Wrong Email or Password" });
     }
+  });
+});
+
+//employee detail page
+app.get("/get/:id", (req, res) => {
+  const id = req.params.id;
+  const sql = "SELECT * FROM employee where id = ?";
+  con.query(sql, [id], (err, result) => {
+    if (err) return res.json({ Error: "Get employee error in sql" });
+    return res.json({ Status: "Success", Result: result });
   });
 });
 
