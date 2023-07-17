@@ -5,6 +5,7 @@ function Home() {
   const [adminCount, setAdminCount] = useState();
   const [employeeCount, setEmployeeCount] = useState();
   const [salary, setSalary] = useState();
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     axios
@@ -25,6 +26,17 @@ function Home() {
       .get("http://localhost:8081/salary")
       .then((res) => {
         setSalary(res.data[0].sumOfSalary);
+      })
+      .catch((err) => console.log(err));
+
+    axios
+      .get("http://localhost:8081/getEmployee")
+      .then((res) => {
+        if (res.data.Status === "Success") {
+          setData(res.data.Result);
+        } else {
+          alert("Error");
+        }
       })
       .catch((err) => console.log(err));
   }, []);
@@ -71,10 +83,14 @@ function Home() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Admin</td>
-              <td>Admin</td>
-            </tr>
+            {data.map((admin, index) => {
+              return (
+                <tr key={index}>
+                  <td>{admin.email}</td>
+                  <td>Admin</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
