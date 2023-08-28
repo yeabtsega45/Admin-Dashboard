@@ -9,7 +9,7 @@ function Employee() {
   //fetching api with useEffect
   useEffect(() => {
     axios
-      .get("http://localhost:8081/getEmployee")
+      .get("/getEmployee")
       .then((res) => {
         if (res.data.Status === "Success") {
           setData(res.data.Result);
@@ -23,7 +23,7 @@ function Employee() {
   //deleting employee account
   const handleDelete = (id) => {
     axios
-      .delete("http://localhost:8081/delete/" + id)
+      .delete("/delete/" + id)
       .then((res) => {
         if (res.data.Status === "Success") {
           window.location.reload(true);

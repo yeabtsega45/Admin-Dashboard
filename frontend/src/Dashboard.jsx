@@ -7,7 +7,7 @@ function Dashboard() {
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
   useEffect((navigate) => {
-    axios.get("http://localhost:8081/dashboard").then((res) => {
+    axios.get("/dashboard").then((res) => {
       if (res.data.Status === "Success") {
         if (res.data.role === "admin") {
           navigate("/");
@@ -23,7 +23,7 @@ function Dashboard() {
 
   const handleLogout = () => {
     axios
-      .get("http://localhost:8081/logout")
+      .get("/logout")
       .then((res) => {
         navigate("/start");
         console.log(res);

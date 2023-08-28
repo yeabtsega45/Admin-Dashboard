@@ -15,7 +15,7 @@ function EditEmployee() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8081/get/" + id)
+      .get("/get/" + id)
       .then((res) => {
         setData({
           ...data,
@@ -31,7 +31,7 @@ function EditEmployee() {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .put("http://localhost:8081/update/" + id, data)
+      .put("/update/" + id, data)
       .then((res) => {
         if (res.data.Status === "Success") {
           navigate("/employee");

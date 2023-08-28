@@ -8,13 +8,13 @@ function EmployeeDetail() {
   const [employee, setEmployee] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:8081/get/" + id)
+      .get("/get/" + id)
       .then((res) => setEmployee(res.data.Result[0]))
       .catch((err) => console.log(err));
   });
   const handleLogout = () => {
     axios
-      .get("http://localhost:8081/logout")
+      .get("/logout")
       .then((res) => {
         navigate("/start");
         console.log(res);

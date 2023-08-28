@@ -10,13 +10,12 @@ function EmployeeLogin() {
   });
   axios.defaults.withCredentials = true;
   const navigate = useNavigate();
-  axios.defaults.withCredentials = true;
   const [error, setError] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("http://localhost:8081/employeelogin", values)
+      .post("/employeelogin", values)
       .then((res) => {
         if (res.data.Status === "Success") {
           const id = res.data.id;

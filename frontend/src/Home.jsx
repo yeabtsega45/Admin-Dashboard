@@ -10,28 +10,28 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8081/adminCount")
+      .get("/adminCount")
       .then((res) => {
         setAdminCount(res.data[0].admin);
       })
       .catch((err) => console.log(err));
 
     axios
-      .get("http://localhost:8081/employeeCount")
+      .get("/employeeCount")
       .then((res) => {
         setEmployeeCount(res.data[0].employee);
       })
       .catch((err) => console.log(err));
 
     axios
-      .get("http://localhost:8081/salary")
+      .get("/salary")
       .then((res) => {
         setSalary(res.data[0].sumOfSalary);
       })
       .catch((err) => console.log(err));
 
     axios
-      .get("http://localhost:8081/getAdmin")
+      .get("/getAdmin")
       .then((res) => {
         if (res.data.Status === "Success") {
           setData(res.data.Result);
